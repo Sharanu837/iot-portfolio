@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Futuristic Portfolio</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">&lt;Sharanu.IoT/&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+  </nav>
+
+  <section id="about" class="hero">
+    <div class="hero-content">
+      <h1>Hello, I'm <span class="highlight">Sharanu</span></h1>
+      <p>IoT Developer | Embedded Systems Specialist | Web Maker</p>
+      <button id="connectBtn">Connect System</button>
+    </div>
+  </section>
+
+  <section id="projects" class="projects-section">
+    <h2>// Featured Projects (8 IoT Nodes)</h2>
+    
+    <div class="slider-container">
+      <button class="slide-btn prev-btn" id="prevBtn">&#10094;</button>
+      
+      <div class="slider-track" id="sliderTrack">
+        
+        <div class="card">
+          <img src="assets/project-images/demo1.jpg" alt="Smart Home" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+1'">
+          <h3>01. Smart Home Hub</h3>
+          <p>ESP32 based relay control system with real-time web dashboard.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo2.jpg" alt="Weather Node" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+2'">
+          <h3>02. Weather Station</h3>
+          <p>DHT22 and BMP280 environmental monitoring with OLED display.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo3.jpg" alt="Smart Agriculture" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+3'">
+          <h3>03. Smart Agriculture</h3>
+          <p>Soil moisture sensing & automatic irrigation pump system.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo4.jpg" alt="RFID Access" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+4'">
+          <h3>04. RFID Security Access</h3>
+          <p>Contactless door lock access using MFRC522 and NodeMCU.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo5.jpg" alt="Air Quality Monitor" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+5'">
+          <h3>05. Air Quality Node</h3>
+          <p>MQ135 gas sensor tracking pollution levels sent to MQTT server.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo6.jpg" alt="Smart Street Light" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+6'">
+          <h3>06. Smart Energy Grid</h3>
+          <p>LDR and IR motion sensor based energy saving street lights.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo7.jpg" alt="Health Tracker" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+7'">
+          <h3>07. Wearable Health Band</h3>
+          <p>MAX30102 pulse oximeter for real-time heart-rate alerts.</p>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo8.jpg" alt="Robotic Arm" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Project+8'">
+          <h3>08. Robotic Arm Control</h3>
+          <p>Servo motor robotics controlled via WebSockets & custom GUI.</p>
+        </div>
+
+      </div>
+
+      <button class="slide-btn next-btn" id="nextBtn">&#10095;</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
