@@ -1,0 +1,121 @@
+import cv2
+import mediapipe as mp
+import numpy as np
+
+# MediaPipe Setup
+mp_hands = mp.solutions.hands
+hands = mp_hands.Hands(
+    static_image_mode=False,
+    max_num_hands=1,
+    min_detection_confidence=0.7,
+    min_tracking_confidence=0.7
+)
+mp_draw = mp.solutions.drawing_utils
+
+tip_ids = [4, 8, 12, 16, 20]
+
+# Camera setup
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+# Drawing Variables
+draw_color = (255, 0, 255) # Default Pink Color
+brush_thickness = 7
+eraser_thickness = 40
+xp, yp = 0, 0
+
+# Blank Canvas setup
+canvas = None
+
+while cap.isOpened():
+    success, frame = cap.read()
+    if not success:
+        break
+
+    display_frame = cv2.flip(frame, 1)
+    frame_h, frame_w, _ = display_frame.shape
+
+    if canvas is None:
+        canvas = np.zeros((frame_h, frame_w, 3), dtype=np.uint8)
+
+    # Top Color Palette UI Draw Karein
+    # Red Color Box
+    cv2.rectangle(display_frame, (20, 10), (120, 70), (0, 0, 255), cv2.FILLED)
+    # Blue Color Box
+    cv2.rectangle(display_frame, (140, 10), (240, 70), (255, 0, 0), cv2.FILLED)
+    # Green Color Box
+    cv2.rectangle(display_frame, (260, 10), (360, 70), (0, 255, 0), cv2.FILLED)
+    # Eraser Box
+    cv2.rectangle(display_frame, (380, 10), (480, 70), (255, 255, 255), cv2.FILLED)
+    cv2.putText(display_frame, "ERASER", (390, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+
+    rgb_frame = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
+    results = hands.process(rgb_frame)
+
+    lm_list = []
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            mp_draw.draw_landmarks(display_frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+            
+            for id, lm in enumerate(hand_landmarks.landmark):
+                cx, cy = int(lm.x * frame_w), int(lm.y * frame_h)
+                lm_list.append([id, cx, cy])
+
+    if len(lm_list) != 0:
+        x1, y1 = lm_list[8][1], lm_list[8][2]   # Index Tip
+        x2, y2 = lm_list[12][1], lm_list[12][2] # Middle Tip
+
+        # Check Fingers Status
+        fingers = []
+        for id in range(1, 5):
+            if lm_list[tip_ids[id]][2] < lm_list[tip_ids[id] - 2][2]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+
+        # Mode 1: Selection Mode (Index + Middle finger UP)
+        if fingers[0] == 1 and fingers[1] == 1:
+            xp, yp = 0, 0
+            
+            if y1 < 70:
+                if 20 < x1 < 120:
+                    draw_color = (0, 0, 255) # Red
+                elif 140 < x1 < 240:
+                    draw_color = (255, 0, 0) # Blue
+                elif 260 < x1 < 360:
+                    draw_color = (0, 255, 0) # Green
+                elif 380 < x1 < 480:
+                    draw_color = (0, 0, 0)   # Eraser
+
+            cv2.rectangle(display_frame, (x1, y1 - 15), (x2, y2 + 15), draw_color, cv2.FILLED)
+
+        # Mode 2: Drawing Mode (ONLY Index finger UP)
+        elif fingers[0] == 1 and fingers[1] == 0:
+            cv2.circle(display_frame, (x1, y1), 10, draw_color, cv2.FILLED)
+
+            if xp == 0 and yp == 0:
+                xp, yp = x1, y1
+
+            thickness = eraser_thickness if draw_color == (0, 0, 0) else brush_thickness
+            
+            # Line draw on canvas
+            cv2.line(canvas, (xp, yp), (x1, y1), draw_color, thickness)
+            xp, yp = x1, y1
+
+    # Merge Canvas and Video Feed
+    img_gray = cv2.cvtColor(canvas, cv2.COLOR_BGR2GRAY)
+    _, img_inv = cv2.threshold(img_gray, 50, 255, cv2.THRESH_BINARY_INV)
+    img_inv = cv2.cvtColor(img_inv, cv2.COLOR_GRAY2BGR)
+    
+    display_frame = cv2.bitwise_and(display_frame, img_inv)
+    display_frame = cv2.bitwise_or(display_frame, canvas)
+
+    cv2.imshow("Virtual Drawing Board", display_frame)
+
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('c'):
+        canvas = np.zeros((frame_h, frame_w, 3), dtype=np.uint8) # Clear Board
+    elif key == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
