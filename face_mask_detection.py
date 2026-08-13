@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharanu | AI & CV Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">&lt;Sharanu.AI/&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+  </nav>
+
+  <section id="about" class="hero">
+    <div class="hero-content">
+      <h1>Hello, I'm <span class="highlight">Sharanu</span></h1>
+      <p>Computer Vision Engineer | AI Developer | Embedded Systems Specialist</p>
+      <button id="connectBtn">Connect System</button>
+    </div>
+  </section>
+
+  <section id="projects" class="projects-section">
+    <h2>// Computer Vision & Gesture Projects (8 Nodes)</h2>
+    
+    <div class="slider-container">
+      <button class="slide-btn prev-btn" id="prevBtn">&#10094;</button>
+      
+      <div class="slider-track" id="sliderTrack">
+        
+        <div class="card">
+          <img src="assets/project-images/demo1.jpg" alt="Virtual Mouse" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Virtual+Mouse'">
+          <h3>01. AI Virtual Mouse</h3>
+          <p>Control cursor and perform left-click using pinch gestures via OpenCV & MediaPipe.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/virtual_mouse.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo2.jpg" alt="Volume Control" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Volume+Control'">
+          <h3>02. Gesture Volume Control</h3>
+          <p>Adjust system master volume dynamically using hand distance and thumb-index pinch.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/volume_control.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo3.jpg" alt="Brightness Control" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Brightness+Control'">
+          <h3>03. Gesture Brightness Control</h3>
+          <p>Adjust laptop screen brightness in real-time based on hand gesture position.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/brightness_control.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo4.jpg" alt="Finger Counter" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Finger+Counter'">
+          <h3>04. Real-time Finger Counter</h3>
+          <p>Detect open/closed fingers and showcase live count from 1 to 5 using hand landmark tracking.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/finger_counter.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo5.jpg" alt="Rock Paper Scissors" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Rock+Paper+Scissors'">
+          <h3>05. Gesture Rock Paper Scissors</h3>
+          <p>Interactive game against AI bot using camera-detected hand gestures.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/rock_paper_scissors.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo6.jpg" alt="Face Mask Detection" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Face+Mask+Detect'">
+          <h3>06. Face Mask Detection</h3>
+          <p>Deep learning classification model detecting whether a person is wearing a face mask.</p>
+          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/face_mask_detection.py" target="_blank" class="project-btn">View Code</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo7.jpg" alt="Drowsiness Alert" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Drowsiness+Alert'">
+          <h3>07. Driver Drowsiness Detector</h3>
+          <p>Eye aspect ratio (EAR) analysis detecting closed eyes and triggering warning alarms.</p>
+          <a href="https://github.com/Sharanu837" target="_blank" class="project-btn">View Project</a>
+        </div>
+
+        <div class="card">
+          <img src="assets/project-images/demo8.jpg" alt="Virtual Canvas" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Virtual+Painter'">
+          <h3>08. AI Virtual Painter</h3>
+          <p>Draw on digital canvas virtually using finger tracking and gesture color selection.</p>
+          <a href="https://github.com/Sharanu837" target="_blank" class="project-btn">View Project</a>
+        </div>
+
+      </div>
+
+      <button class="slide-btn next-btn" id="nextBtn">&#10095;</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
