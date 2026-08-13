@@ -22,3 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+document.getElementById('connectBtn').addEventListener('click', function() {
+    // 1. Smooth scroll to projects section
+    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+    
+    // 2. Futuristic Alert Message
+    alert("SYSTEM CONNECTED: All 8 Computer Vision Nodes Online!");
+});
