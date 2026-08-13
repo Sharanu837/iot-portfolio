@@ -1,100 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sharanu | AI & CV Portfolio</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+import cv2
+import mediapipe as mp
+import numpy as np
 
-  <nav class="navbar">
-    <div class="logo">&lt;Sharanu.AI/&gt;</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-    </ul>
-  </nav>
+# MediaPipe Face Detection Setup
+mp_face = mp.solutions.face_detection
+mp_draw = mp.solutions.drawing_utils
 
-  <section id="about" class="hero">
-    <div class="hero-content">
-      <h1>Hello, I'm <span class="highlight">Sharanu</span></h1>
-      <p>Computer Vision Engineer | AI Developer | Embedded Systems Specialist</p>
-      <button id="connectBtn">Connect System</button>
-    </div>
-  </section>
+face_detection = mp_face.FaceDetection(min_detection_confidence=0.6)
 
-  <section id="projects" class="projects-section">
-    <h2>// Computer Vision & Gesture Projects (8 Nodes)</h2>
-    
-    <div class="slider-container">
-      <button class="slide-btn prev-btn" id="prevBtn">&#10094;</button>
-      
-      <div class="slider-track" id="sliderTrack">
-        
-        <div class="card">
-          <img src="assets/project-images/demo1.jpg" alt="Virtual Mouse" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Virtual+Mouse'">
-          <h3>01. AI Virtual Mouse</h3>
-          <p>Control cursor and perform left-click using pinch gestures via OpenCV & MediaPipe.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/virtual_mouse.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+# Windows DirectShow Camera
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
-        <div class="card">
-          <img src="assets/project-images/demo2.jpg" alt="Volume Control" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Volume+Control'">
-          <h3>02. Gesture Volume Control</h3>
-          <p>Adjust system master volume dynamically using hand distance and thumb-index pinch.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/volume_control.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+while cap.isOpened():
+    success, frame = cap.read()
+    if not success:
+        break
 
-        <div class="card">
-          <img src="assets/project-images/demo3.jpg" alt="Brightness Control" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Brightness+Control'">
-          <h3>03. Gesture Brightness Control</h3>
-          <p>Adjust laptop screen brightness in real-time based on hand gesture position.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/brightness_control.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+    # Flip for Selfie Mirror View
+    display_frame = cv2.flip(frame, 1)
+    frame_h, frame_w, _ = display_frame.shape
 
-        <div class="card">
-          <img src="assets/project-images/demo4.jpg" alt="Finger Counter" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Finger+Counter'">
-          <h3>04. Real-time Finger Counter</h3>
-          <p>Detect open/closed fingers and showcase live count from 1 to 5 using hand landmark tracking.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/finger_counter.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+    # RGB Conversion
+    rgb_frame = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
+    results = face_detection.process(rgb_frame)
 
-        <div class="card">
-          <img src="assets/project-images/demo5.jpg" alt="Rock Paper Scissors" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Rock+Paper+Scissors'">
-          <h3>05. Gesture Rock Paper Scissors</h3>
-          <p>Interactive game against AI bot using camera-detected hand gestures.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/rock_paper_scissors.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+    if results.detections:
+        for detection in results.detections:
+            # Bounding Box Coordinates
+            bboxC = detection.location_data.relative_bounding_box
+            x = int(bboxC.xmin * frame_w)
+            y = int(bboxC.ymin * frame_h)
+            w = int(bboxC.width * frame_w)
+            h = int(bboxC.height * frame_h)
 
-        <div class="card">
-          <img src="assets/project-images/demo6.jpg" alt="Face Mask Detection" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Face+Mask+Detect'">
-          <h3>06. Face Mask Detection</h3>
-          <p>Deep learning classification model detecting whether a person is wearing a face mask.</p>
-          <a href="https://github.com/Sharanu837/iot-portfolio/blob/main/face_mask_detection.py" target="_blank" class="project-btn">View Code</a>
-        </div>
+            # Ensure coordinates stay inside frame boundary
+            x, y = max(0, x), max(0, y)
+            w, h = min(frame_w - x, w), min(frame_h - y, h)
 
-        <div class="card">
-          <img src="assets/project-images/demo7.jpg" alt="Drowsiness Alert" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Drowsiness+Alert'">
-          <h3>07. Driver Drowsiness Detector</h3>
-          <p>Eye aspect ratio (EAR) analysis detecting closed eyes and triggering warning alarms.</p>
-          <a href="https://github.com/Sharanu837" target="_blank" class="project-btn">View Project</a>
-        </div>
+            # Lower Face Region ROI (Nose & Mouth Region)
+            lower_face_y = y + int(h * 0.5)
+            lower_face_h = int(h * 0.5)
+            
+            lower_face_roi = display_frame[lower_face_y : lower_face_y + lower_face_h, x : x + w]
 
-        <div class="card">
-          <img src="assets/project-images/demo8.jpg" alt="Virtual Canvas" class="card-img" onerror="this.src='https://via.placeholder.com/300x180/1a1a2e/00f3ff?text=Virtual+Painter'">
-          <h3>08. AI Virtual Painter</h3>
-          <p>Draw on digital canvas virtually using finger tracking and gesture color selection.</p>
-          <a href="https://github.com/Sharanu837" target="_blank" class="project-btn">View Project</a>
-        </div>
+            # Mask Detection Logic using Variance/Edge/Color Density
+            label = "Detecting..."
+            color = (255, 255, 255)
 
-      </div>
+            if lower_face_roi.size != 0:
+                # Convert ROI to HSV color space
+                hsv_roi = cv2.cvtColor(lower_face_roi, cv2.COLOR_BGR2HSV)
+                
+                # Check Skin Color Density in lower face
+                # Typical skin color HSV bounds
+                lower_skin = np.array([0, 20, 70], dtype=np.uint8)
+                upper_skin = np.array([20, 255, 255], dtype=np.uint8)
+                
+                skin_mask = cv2.inRange(hsv_roi, lower_skin, upper_skin)
+                skin_ratio = (cv2.countNonZero(skin_mask) / (w * lower_face_h)) * 100
 
-      <button class="slide-btn next-btn" id="nextBtn">&#10095;</button>
-    </div>
-  </section>
+                # Agar lower face par skin percentage kam hai -> Mask Detected
+                if skin_ratio < 18.0:
+                    label = "Mask Detected"
+                    color = (0, 255, 0)  # Green Box
+                else:
+                    label = "No Mask"
+                    color = (0, 0, 255)  # Red Box
 
-  <script src="script.js"></script>
-</body>
-</html>
+            # Draw Bounding Box and Label
+            cv2.rectangle(display_frame, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(display_frame, (x, y - 35), (x + w, y), color, cv2.FILLED)
+            cv2.putText(display_frame, label, (x + 10, y - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+
+    cv2.imshow("Face Mask Detection", display_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
