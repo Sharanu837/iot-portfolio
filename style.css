@@ -167,3 +167,23 @@ h2 {
 
 .prev-btn { left: 5px; }
 .next-btn { right: 5px; }
+/* View Project Button Styling */
+.project-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: transparent;
+  color: #00f3ff;
+  border: 1px solid #00f3ff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.project-btn:hover {
+  background: #00f3ff;
+  color: #0a0a16;
+  box-shadow: 0 0 10px #00f3ff;
+}
